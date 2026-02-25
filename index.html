@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой TODO лист</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="todo-container">
+        <h1>📝 Мои задачи</h1>
+        
+        <!-- Счётчик оставшихся задач -->
+        <div class="counter" id="counter">Осталось: <span id="remainingCount">0</span></div>
+
+        <!-- Поле ввода и кнопка добавления -->
+        <div class="input-area">
+            <input type="text" id="taskInput" placeholder="Что нужно сделать?">
+            <button id="addButton">➕ Добавить</button>
+        </div>
+
+        <!-- Список задач будет помещаться сюда -->
+        <div id="tasksList" class="tasks-list"></div>
+
+        <!-- Кнопка очистки всех задач -->
+        <button id="clearAllButton" class="clear-btn">🗑️ Очистить всё</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

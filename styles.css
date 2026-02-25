@@ -1,0 +1,163 @@
+/* Общие настройки для всей страницы */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #153677, #4e085f);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Белая карточка с задачами */
+.todo-container {
+    background: white;
+    max-width: 500px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Заголовок */
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 28px;
+}
+
+/* Счётчик оставшихся задач */
+.counter {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #555;
+    background: #f0f0f0;
+    padding: 8px;
+    border-radius: 30px;
+}
+
+#remainingCount {
+    font-weight: bold;
+    color: #153677;
+    font-size: 22px;
+}
+
+/* Поле ввода и кнопка добавления */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#taskInput {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#taskInput:focus {
+    border-color: #153677;
+}
+
+#addButton {
+    padding: 12px 25px;
+    background: #153677;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#addButton:hover {
+    background: #0f2a55;
+}
+
+/* Контейнер для списка задач */
+.tasks-list {
+    margin-bottom: 20px;
+}
+
+/* Карточка одной задачи */
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 40px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.task-item:hover {
+    transform: scale(1.02);
+}
+
+/* Чекбокс */
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #153677; /* цвет галочки */
+}
+
+/* Текст задачи */
+.task-text {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+    word-break: break-word;
+}
+
+/* Если задача выполнена — зачёркиваем текст */
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+/* Кнопка удаления */
+.delete-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+    padding: 0 5px;
+}
+
+.delete-btn:hover {
+    color: #dc3545;
+}
+
+/* Кнопка очистки всего списка */
+.clear-btn {
+    width: 100%;
+    padding: 14px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.clear-btn:hover {
+    background: #c82333;
+}
