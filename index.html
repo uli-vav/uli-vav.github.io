@@ -1,31 +1,295 @@
+html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой TODO лист</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Мои задачи — онлайн список дел | Простой todo лист</title>
+    <meta name="description" content="Бесплатный планировщик задач: создавайте и отмечайте мои задачи онлайн. Веб-версия без регистрации, для ежедневного использования.">
+    <meta name="keywords" content="мои задачи, todo лист, список задач онлайн, планировщик задач, to do list">
+    <meta name="author" content="Uli Vav">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .remaining {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .add-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .add-section input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .add-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .clear-btn {
+            background: #e53e3e;
+        }
+
+        .clear-btn:hover {
+            background: #c53030;
+        }
+
+        .todo-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+
+        .todo-item:hover {
+            background: #edf2f7;
+        }
+
+        .todo-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 1rem;
+            color: #2d3748;
+            word-break: break-word;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        .delete-btn {
+            background: none;
+            color: #e53e3e;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .delete-btn:hover {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        footer {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.75rem;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
 </head>
 <body>
-    <div class="todo-container">
-        <h1>📝 Мои задачи</h1>
-        
-        <!-- Счётчик оставшихся задач -->
-        <div class="counter" id="counter">Осталось: <span id="remainingCount">0</span></div>
+    <div class="container">
+        <h1>📝 Мои задачи — онлайн список дел</h1>
+        <div class="subtitle">Простой todo лист на каждый день</div>
 
-        <!-- Поле ввода и кнопка добавления -->
-        <div class="input-area">
-            <input type="text" id="taskInput" placeholder="Что нужно сделать?">
-            <button id="addButton">➕ Добавить</button>
+        <div class="todo-header">
+            <span class="remaining">Осталось: <span id="remainingCount">0</span></span>
+            <button id="clearAllBtn" class="clear-btn" aria-label="Очистить все задачи">🗑️ Очистить всё</button>
         </div>
 
-        <!-- Список задач будет помещаться сюда -->
-        <div id="tasksList" class="tasks-list"></div>
+        <div class="add-section">
+            <input type="text" id="taskInput" placeholder="Новая задача..." aria-label="Текст новой задачи">
+            <button id="addBtn">➕ Добавить</button>
+        </div>
 
-        <!-- Кнопка очистки всех задач -->
-        <button id="clearAllButton" class="clear-btn">🗑️ Очистить всё</button>
+        <ul class="todo-list" id="todoList"></ul>
+        <footer>
+            💡 Бесплатный планировщик задач — все данные сохраняются в вашем браузере
+        </footer>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        // Загрузка задач из localStorage
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        // DOM элементы
+        const todoList = document.getElementById('todoList');
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const remainingCount = document.getElementById('remainingCount');
+
+        // Сохранение в localStorage
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        // Обновление счетчика оставшихся задач
+        function updateRemaining() {
+            const remaining = tasks.filter(task => !task.completed).length;
+            remainingCount.textContent = remaining;
+        }
+
+        // Рендер списка задач
+        function renderTasks() {
+            todoList.innerHTML = '';
+            
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.completed;
+                checkbox.addEventListener('change', () => {
+                    tasks[index].completed = checkbox.checked;
+                    saveTasks();
+                    renderTasks();
+                });
+                
+                const span = document.createElement('span');
+                span.className = 'todo-text' + (task.completed ? ' completed' : '');
+                span.textContent = task.text;
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '🗑️';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.setAttribute('aria-label', 'Удалить задачу');
+                deleteBtn.addEventListener('click', () => {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                    renderTasks();
+                });
+                
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                todoList.appendChild(li);
+            });
+            
+            updateRemaining();
+        }
+
+        // Добавление новой задачи
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
+            
+            tasks.push({
+                text: text,
+                completed: false
+            });
+            
+            saveTasks();
+            renderTasks();
+            taskInput.value = '';
+            taskInput.focus();
+        }
+
+        // Очистка всех задач
+        function clearAllTasks() {
+            if (confirm('Удалить все задачи без возможности восстановления?')) {
+                tasks = [];
+                saveTasks();
+                renderTasks();
+            }
+        }
+
+        // Обработчики событий
+        addBtn.addEventListener('click', addTask);
+        clearAllBtn.addEventListener('click', clearAllTasks);
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        // Первоначальный рендер
+        renderTasks();
+    </script>
 </body>
 </html>
